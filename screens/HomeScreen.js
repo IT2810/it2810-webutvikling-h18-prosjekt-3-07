@@ -14,7 +14,7 @@ class HomeScreen extends React.Component {
             onPress={() => {
               this.props.navigation.navigate('Tasks');
             }}
-            title = "Go to today's task"
+            title = "TODO'S"
           />
           <Button 
             onPress={() => {
