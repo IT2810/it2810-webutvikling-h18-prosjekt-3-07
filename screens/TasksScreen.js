@@ -14,7 +14,7 @@ class TasksScreen extends React.Component {
     
       return (
 
-        <View>
+        <View style={styles.container}>
            <TodoList></TodoList>
         </View>
 
