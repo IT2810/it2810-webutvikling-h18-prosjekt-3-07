@@ -1,20 +1,27 @@
 
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import TodoList from '../components/TodoList';
 
 class TasksScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    }
     static navigationOptions= {
       title: 'Tasks',
     };
     render() {
-  
+    
       return (
-        <View style={styles.container}>
-          <Text>Tasks screen</Text>
+
+        <View>
+           <TodoList></TodoList>
         </View>
+
       );
     }
   }
+  
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -23,4 +30,5 @@ class TasksScreen extends React.Component {
       backgroundColor: '#fff',
     }
   });
+
   export default TasksScreen;
