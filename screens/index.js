@@ -1,9 +1,9 @@
-import CalendarScreen from './CalendarScreen';
+import PedometerScreen from './PedometerScreen';
 import HomeScreen from './HomeScreen';
 import TasksScreen from './TasksScreen';
 
 export {
-    CalendarScreen,
+    PedometerScreen,
     HomeScreen,
     TasksScreen
 }

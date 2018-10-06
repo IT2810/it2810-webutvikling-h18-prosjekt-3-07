@@ -1,12 +1,12 @@
 
 import { createStackNavigator } from 'react-navigation';
-import { HomeScreen, TasksScreen, CalendarScreen } from '../screens';
+import { HomeScreen, TasksScreen, PedometerScreen } from '../screens';
 
 const RootStack = createStackNavigator(
     {
       Home: HomeScreen,
       Tasks: TasksScreen,
-      Calendar: CalendarScreen,
+      Pedometer: PedometerScreen,
     },
     {
       initialRouteName: 'Home',

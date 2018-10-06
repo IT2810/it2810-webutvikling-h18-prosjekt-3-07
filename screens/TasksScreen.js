@@ -1,7 +1,6 @@
 
 import React from 'react';
-import {Text, View } from 'react-native';
-import ScreenStyles from './ScreenStyle';
+import {Text, View, StyleSheet} from 'react-native';
 
 class TasksScreen extends React.Component {
     static navigationOptions= {
@@ -10,11 +9,18 @@ class TasksScreen extends React.Component {
     render() {
   
       return (
-        <View style={ScreenStyles.container}>
+        <View style={styles.container}>
           <Text>Tasks screen</Text>
         </View>
       );
     }
   }
-
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: '#fff',
+    }
+  });
   export default TasksScreen;
