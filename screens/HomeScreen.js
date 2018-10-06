@@ -1,7 +1,6 @@
 import React from 'react';
-import {View } from 'react-native';
-import ScreenStyles from './ScreenStyle';
-import Button from '../components/Button';
+import {View, StyleSheet } from 'react-native';
+import NavigationButton from '../components/NavigationButton';
 
 class HomeScreen extends React.Component {
     static navigationOptions= {
@@ -9,22 +8,31 @@ class HomeScreen extends React.Component {
     };
     render() {
       return (
-        <View style={ScreenStyles.container}>
-          <Button 
+        <View style={styles.container}>
+          <NavigationButton 
             onPress={() => {
               this.props.navigation.navigate('Tasks');
             }}
-            title = "Go to today's task"
+            title = "TODO'S"
           />
-          <Button 
+          <NavigationButton 
             onPress={() => {
-              this.props.navigation.navigate('Calendar');
+              this.props.navigation.navigate('Pedometer');
             }}
-            title = "Go to  calendar"
+            title = "Pedometer"
           />
         </View>
       );
     }
   }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: '#fff',
+    }
+  });
 
   export default HomeScreen;

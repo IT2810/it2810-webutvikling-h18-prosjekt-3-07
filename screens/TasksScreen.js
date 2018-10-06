@@ -1,9 +1,7 @@
 
 import React from 'react';
-import {Text, View } from 'react-native';
-import ScreenStyles from './ScreenStyle';
+import {Text, View, StyleSheet} from 'react-native';
 import TodoList from '../components/TodoList';
-import AddTodoButton from '../components/AddTodoButton';
 
 class TasksScreen extends React.Component {
   constructor(props) {
@@ -15,11 +13,22 @@ class TasksScreen extends React.Component {
     render() {
     
       return (
-        <View style={ScreenStyles.container}>
-          <TodoList></TodoList>
-          </View>
+
+        <View>
+           <TodoList></TodoList>
+        </View>
+
       );
     }
   }
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: '#fff',
+    }
+  });
 
   export default TasksScreen;
