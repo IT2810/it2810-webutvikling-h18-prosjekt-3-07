@@ -1,141 +1,152 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TextInput,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
-import { CheckBox } from 'react-native-elements';
-import StorageOperations from './StorageOperations';
-
+import {AsyncStorage, FlatList, View, TextInput, StyleSheet, Platform, Keyboard} from 'react-native';
+import TodoItem from './TodoItem';
 
 const isAndroid = Platform.OS == "android";
 const viewPadding = 10;
 
-class TodoList extends React.Component {
-  state = {
-    tasks: [],
-    text: "",
-    completed: []
-  };
+class TodoList2 extends React.Component {
+    state = { 
+        taskList: [],
+        text: "",
+     }
 
-  changeTextHandler = text => {
-    this.setState({ text: text});
-  }
 
-  addTask = () => {
-    let notEmpty = this.state.text.trim().length > 0;
-
-    if (notEmpty) {
-      this.setState(
-        prevState => {
-          let { tasks, text, completed } = prevState;
-          return {
-            tasks: tasks.concat({ key: tasks.length.toString(), text: text, completed: completed }),
-            text: "",
-            completed: false
-          };
-        },
-        () => StorageOperations.save(this.state.tasks)
-      );
-    }
-  };
-
-  deleteTask = i => {
-    this.setState(
-      prevState => {
-        let tasks = prevState.tasks.slice();
-    
-        tasks.splice(i, 1);
-
-        return { tasks: tasks };
+     componentDidMount() {
+        Keyboard.addListener(
+            isAndroid ? "keyboardDidShow" : "keyboardWillShow",
+            e => this.setState({ viewPadding: e.endCoordinates.height + viewPadding })
+          );
       
-      },
-      () => StorageOperations.save(this.state.tasks)
-    );
-  };
+          Keyboard.addListener(
+            isAndroid ? "keyboardDidHide" : "keyboardWillHide",
+            () => this.setState({ viewPadding: viewPadding })
+          );
 
-  componentDidMount() {
-    StorageOperations.all(tasks => this.setState({ tasks: tasks || [] })); 
-  }
+        this.updateList();
+     }
 
-  completeTask = index => {
-    let completed = [...this.state.completed];
-    completed[index] = !completed[index];
-    this.setState({ completed });
-  }
+     async addTask () {
+        const newTask = {
+            id: new Date(),
+            text: this.state.text,
+            completed: false,
+        }
 
-  render() {
-    let { tasks, completed } = this.state;
-    return ( <View
-      style={[styles.container, { paddingBottom: this.state.viewMargin }]}
-    >
-      <FlatList
-        extraData = {this.state}
-        style={styles.list}
-        data={this.state.tasks}
-        renderItem={({ item, index }) =>
-          <View>
-            <View style={styles.listItemCount}>
-            
-            <CheckBox
-                style={{backgroundColor: "#F5FCFF"}}
-                checked={completed[index]}
-                onPress= {() => this.completeTask(index)}/>
+        // adds newTask to our task array
+        const taskList = [...this.state.taskList, newTask]
 
-              <Text style={styles.listItem}>
-                {item.text}
-              </Text>
-              <TouchableOpacity
-                onPress={() => this.deleteTask(index)}
-                style={{paddingLeft: 25, paddingRight: 15}}
-              >
-              <Text>X</Text>
-              </TouchableOpacity>
-              
-            </View>
-            <View style={styles.hr} />
-            
-          </View>}
-      />
-      <TextInput
-        style={styles.textInput}
-        onChangeText={this.changeTextHandler}
-        onSubmitEditing={this.addTask}
-        value={this.state.text}
-        placeholder="Add Tasks"
-        returnKeyType="done"
-        returnKeyLabel="done"
+        // store in asyncStorage
+        await AsyncStorage.setItem('taskList', JSON.stringify(taskList));
+
+        this.updateList();
+      };
+
+      async updateList () {
+        // retrieves taskList from storage
+        let tasks = await AsyncStorage.getItem('taskList');
+        // parses back to JS array (or empty array)
+        let taskList = await JSON.parse(tasks) || [];
+        console.log(taskList)
         
-      />
-    </View>
-    );
-  }
-}
+
+        this.setState({
+            taskList
+        })
+
+        // set text to empty
+        this.changeTextHandler("");
+      }
+
+      changeTextHandler = text => {
+        this.setState({ text });
+      }
+
+      async deleteTask(id) {
+        // find index of element with timestamp used as a parameter
+        const index = this.state.taskList.findIndex(item => item.id === id)
+        // remove the object at given index from taskList
+        const remove = this.state.taskList.splice(index,1);
+        
+        await AsyncStorage.setItem('taskList', 
+          JSON.stringify(this.state.taskList));
+
+          this.updateList();
+      }
+
+      async completeTask(id) {
+        // find index of element with timestamp used as a parameter
+        const index = this.state.taskList.findIndex(item => item.id === id)  
+
+        // toggle true/false for task completed
+        const updatedTask = {
+              ...this.state.taskList[index],
+              completed:
+              !this.state.taskList[index].completed
+          };
+          console.log(taskList);
+           
+         // create copy of taskList 
+          const taskList = this.state.taskList.slice();
+          //insert updatedTask at index id
+          taskList[index] = updatedTask;
+
+          await AsyncStorage.setItem('taskList', 
+          JSON.stringify(taskList));
+
+          this.updateList();
+
+      }
+
+    // named it _renderItem to separate it from FlatLists built-in-method renderItem
+    // renders our TodoItem and defines values for its props
+      _renderItem = ({item}) => (
+          <TodoItem
+            id= {item.id}
+            completed = {item.completed}
+            text = {item.text}
+            onComplete = { () => this.completeTask(item.id)}
+            onDelete = { () => this.deleteTask(item.id)}
+          ></TodoItem>
+          )
+    
+    render() { 
+        
+        return (
+            <View style={[styles.container, { paddingBottom: this.state.viewMargin }]}>
+                
+                 <FlatList
+                data ={ this.state.taskList }
+                keyExtractor = {(item, index) => item.id}
+                renderItem = {this._renderItem}
+                />
+                
+              <TextInput
+                style={styles.textInput}
+                onChangeText={ (text) =>
+                this.changeTextHandler(text) }
+                onSubmitEditing={() => this.addTask()}
+                value={this.state.text}
+                placeholder="Add Tasks"
+                returnKeyType="done"
+                returnKeyLabel="done"/>
+
+
+            </View>
+           
+        )
+}}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignSelf: "stretch",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF",
-    paddingTop: 20
-  },
-  list: {
-    width: "100%"
-  },
-  listItem: {
-    paddingTop: 2,
-    paddingBottom: 2,
-    fontSize: 20,
-  },
-  hr: {
-    height: 1,
-    backgroundColor: "#d5d9e0"
+    container: {
+    
+      alignSelf: "stretch",
+      justifyContent: "center",
+      backgroundColor: "#F5FCFF",
+      paddingTop: 20
+    },
+    list: {
+        width: "100%"
   },
   listItemCount: {
     flexDirection: "row",
@@ -148,7 +159,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderWidth: isAndroid ? 0 : 1,
     width: "100%"
-  }
-});
+  }})
 
-export default TodoList;
+ 
+export default TodoList2;
