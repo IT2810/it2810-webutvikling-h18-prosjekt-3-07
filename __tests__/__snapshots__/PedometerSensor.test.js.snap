@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#8492A6",
+        "fontSize": 20,
+        "marginTop": 20,
+      }
+    }
+  >
+    You have walked 
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#8492A6",
+          "fontSize": 20,
+          "fontWeight": "bold",
+        }
+      }
+    >
+       
+      0
+    </Text>
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#8492A6",
+        "fontSize": 20,
+        "fontWeight": "normal",
+      }
+    }
+  >
+    steps the last 24 hours.
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#8492A6",
+        "fontSize": 20,
+        "marginTop": 20,
+      }
+    }
+  >
+    Keep going! You have
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#8492A6",
+        "fontSize": 20,
+        "fontWeight": "bold",
+      }
+    }
+  >
+    10000
+     
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#8492A6",
+          "fontSize": 20,
+          "fontWeight": "normal",
+        }
+      }
+    >
+       steps left.
+    </Text>
+  </Text>
+</View>
+`;

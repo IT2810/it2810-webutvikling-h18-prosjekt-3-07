@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#FFF",
+      "flex": 1,
+      "marginTop": 50,
+      "padding": 15,
+    }
+  }
+>
+  <View>
+    <View
+      style={
+        Object {
+          "borderColor": "#C8CCCE",
+          "borderRadius": 6,
+          "borderWidth": 1,
+          "height": 15,
+          "width": 720,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "rgba(20, 140, 240, 1)",
+            "borderRadius": 6,
+            "height": 13,
+            "width": 0,
+          }
+        }
+      />
+    </View>
+  </View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#8492A6",
+        "fontSize": 20,
+        "fontWeight": "normal",
+      }
+    }
+  >
+    NaN
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+    >
+      % completed
+    </Text>
+  </Text>
+</View>
+`;
