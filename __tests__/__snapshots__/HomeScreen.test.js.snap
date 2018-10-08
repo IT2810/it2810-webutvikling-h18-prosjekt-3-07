@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#fff",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <NavigationButton
+    onPress={[Function]}
+    title="TODO'S"
+  />
+  <NavigationButton
+    onPress={[Function]}
+    title="Pedometer"
+  />
+</Component>
+`;
