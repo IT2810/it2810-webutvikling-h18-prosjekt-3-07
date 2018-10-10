@@ -9,21 +9,44 @@ export default class PedometerSensor extends React.Component {
     this.state = {
       isPedometerAvailable: "checking",
       pastStepCount: 0,
-      currentStepCount: 0
+      currentStepCount: 0,
+      totalStepCount: 0
     }
   }
-
+  
   componentDidMount() {
     this._subscribe();
   }
-
+  
   componentWillUnmount() {
     this._unsubscribe();
+  }
+
+  getTotalStepCount = (steps) => {
+
+    let sum = 0;
+
+    switch(steps.countType) {
+      case 'current':
+        sum = steps.count + this.state.pastStepCount;
+        break;
+
+      case 'past':
+        sum = steps.count + this.state.currentStepCount;
+      }
+
+    this.setState({totalStepCount: sum})
+    this.props.setSteps(sum);
   }
 
   //Subscribe to pedometer updates
   _subscribe = () => {
     this._subscription = Pedometer.watchStepCount(result => {
+      this.getTotalStepCount({
+        countType: 'current',
+        count: result.steps
+      })
+      
       this.setState({currentStepCount: result.steps});
     });
   
@@ -42,17 +65,22 @@ export default class PedometerSensor extends React.Component {
     const end = new Date();
     const start = new Date();
     start.setDate(end.getDate() - 1);
-    // Set start and end date for step count. Is currently 24 hours. 
+    //Set start and end date for step count. Is currently 24 hours. 
     Pedometer.getStepCountAsync(start, end).then(
       result => {
-        this.props.setSteps(result.steps);
+
+        this.getTotalStepCount({
+          countType: 'past',
+          count: result.steps
+        })
+
         this.setState({ pastStepCount: result.steps });
       },
       error => {
         this.setState({
           pastStepCount: "Could not get stepCount: " + error
         });
-      }
+      },
     );
   };
   
@@ -62,27 +90,51 @@ export default class PedometerSensor extends React.Component {
   this._subscription = null;
 };
 
+//Conditional rendering based on how many steps you have taken
+  getStepsText = () => {
+    const recomendedSteps = 10000;
+    let stepsLeft = recomendedSteps - this.state.totalStepCount;
+
+    if (stepsLeft > 0) {
+      return(
+        <View>
+          <Text style={styles.text1}>
+            Keep going! You have 
+          </Text>
+          <Text style={styles.stepstext}>
+            {recomendedSteps - this.state.totalStepCount} <Text style={styles.text2}> steps left.</Text>
+          </Text> 
+        </View>
+      );
+    } else {
+      return(
+        <View>
+          <Text style={styles.text1}>
+            Congratulations!
+          </Text>
+          <Text style={styles.text2}>
+            You have reached the goal.
+          </Text>
+        </View>
+      );
+    }
+  }
 
   render() {
-    const recomendedSteps = 10000;
     return (
       <View>
         <Text style={styles.text1}>
-          You have walked <Text style={styles.stepstext}> {this.state.pastStepCount + this.state.currentStepCount}</Text>
+          You have walked <Text style={styles.stepstext}> {this.state.totalStepCount}</Text>
         </Text >
         <Text style={styles.text2}>
           steps the last 24 hours.
         </Text>
-        <Text style={styles.text1}>
-          Keep going! You have 
-        </Text>
-        <Text style={styles.stepstext}>
-          {recomendedSteps - (this.state.pastStepCount + this.state.currentStepCount)} <Text style={styles.text2}> steps left.</Text>
-        </Text> 
+          {this.getStepsText()}
       </View>
     );
   }
 }
+
 const styles = StyleSheet.create({
   stepstext: {
     color: '#8492A6',

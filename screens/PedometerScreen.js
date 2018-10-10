@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PedometerSensor from '../components/PedometerSensor';
 import PedometerProgressBar from '../components/PedometerProgressBar';
 
@@ -16,7 +16,6 @@ class PedometerScreen extends React.Component {
       steps: 0,
     }
   }
-
 
   setSteps = (steps)  => {
     this.setState({steps: steps})
