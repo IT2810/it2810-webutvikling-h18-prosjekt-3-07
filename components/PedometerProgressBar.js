@@ -13,24 +13,14 @@ export default class PedometerProgressBar extends React.Component {
 
   constructor (props) {
     super(props)
-    const progress = (props.steps/10000)*100;
     this.state = {
-      progress: progress,
-      progressWithOnComplete: 0,
-      progressCustomized: 0,
+      progress: props.steps,
     }
   }
-  
-
-   componentWillReceiveProps(newProp) {
+  componentWillReceiveProps(newProp) {
       this.setState({progress: (newProp.steps/100)})
    }
- 
-  increase = (key, value) => {
-    this.setState({
-      [key]: this.state[key] + value,
-    });
-  }
+   
 
   render() {
     const barWidth = Dimensions.get('screen').width - 30;
@@ -42,7 +32,7 @@ export default class PedometerProgressBar extends React.Component {
           <ProgressBarAnimated
             width={barWidth}
             value={this.state.progress}
-            backgroundColorOnComplete="#4dff4d"
+            backgroundColor='#47d147'
           />
         </View>
         <Text style={styles.text}>{this.state.progress}
