@@ -3,7 +3,7 @@ import {AsyncStorage, FlatList, View, TextInput, StyleSheet, Platform, Keyboard}
 import TodoItem from './TodoItem';
 
 const isAndroid = Platform.OS == "android";
-const viewPadding = 10;
+const viewPadding = 0;
 
 class TodoList2 extends React.Component {
     state = { 
@@ -13,11 +13,14 @@ class TodoList2 extends React.Component {
 
 
      componentDidMount() {
+       // listen to keyboard events emitted from device
+       // increase padding if keyboard is showing
         Keyboard.addListener(
             isAndroid ? "keyboardDidShow" : "keyboardWillShow",
             e => this.setState({ viewPadding: e.endCoordinates.height + viewPadding })
           );
-      
+
+          // remove padding if keyboard is hidden
           Keyboard.addListener(
             isAndroid ? "keyboardDidHide" : "keyboardWillHide",
             () => this.setState({ viewPadding: viewPadding })
@@ -26,7 +29,7 @@ class TodoList2 extends React.Component {
         this.updateList();
      }
 
-     async addTask () {
+     async addTask() {
         const newTask = {
             id: new Date(),
             text: this.state.text,
@@ -101,19 +104,20 @@ class TodoList2 extends React.Component {
     // named it _renderItem to separate it from FlatLists built-in-method renderItem
     // renders our TodoItem and defines values for its props
       _renderItem = ({item}) => (
-          <TodoItem
-            id= {item.id}
-            completed = {item.completed}
-            text = {item.text}
-            onComplete = { () => this.completeTask(item.id)}
-            onDelete = { () => this.deleteTask(item.id)}
+        
+            <TodoItem
+              id= {item.id}
+              completed = {item.completed}
+              text = {item.text}
+              onComplete = { () => this.completeTask(item.id)}
+              onDelete = { () => this.deleteTask(item.id)}
           ></TodoItem>
           )
     
     render() { 
         
         return (
-            <View style={[styles.container, { paddingBottom: this.state.viewMargin }]}>
+            <View style={[styles.container, { paddingBottom: this.state.viewPadding }]}>
                 
                  <FlatList
                 data ={ this.state.taskList }
@@ -127,10 +131,9 @@ class TodoList2 extends React.Component {
                 this.changeTextHandler(text) }
                 onSubmitEditing={() => this.addTask()}
                 value={this.state.text}
-                placeholder="Add Tasks"
+                placeholder="Add a task!"
                 returnKeyType="done"
                 returnKeyLabel="done"/>
-
 
             </View>
            
@@ -139,24 +142,17 @@ class TodoList2 extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-    
+      flex: 1,
       alignSelf: "stretch",
       justifyContent: "center",
       backgroundColor: "#F5FCFF",
-      paddingTop: 20
+      paddingTop: 5
     },
-    list: {
-        width: "100%"
-  },
-  listItemCount: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
-  },
   textInput: {
     height: 50,
     paddingRight: 10,
     paddingLeft: 10,
+    borderColor: "#e0e2e5",
     borderWidth: isAndroid ? 0 : 1,
     width: "100%"
   }})
