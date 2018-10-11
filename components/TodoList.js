@@ -5,12 +5,11 @@ import TodoItem from './TodoItem';
 const isAndroid = Platform.OS == "android";
 const viewPadding = 0;
 
-class TodoList2 extends React.Component {
+class TodoList extends React.Component {
     state = { 
         taskList: [],
         text: "",
      }
-
 
      componentDidMount() {
        // listen to keyboard events emitted from device
@@ -29,6 +28,10 @@ class TodoList2 extends React.Component {
         this.updateList();
      }
 
+     componentWillUnmount() {
+       Keyboard.removeListener()
+     }
+
      async addTask() {
         const newTask = {
             id: new Date(),
@@ -45,14 +48,13 @@ class TodoList2 extends React.Component {
         this.updateList();
       };
 
+      // fetches from storage, parses and updates the state of taskList
       async updateList () {
         // retrieves taskList from storage
         let tasks = await AsyncStorage.getItem('taskList');
         // parses back to JS array (or empty array)
         let taskList = await JSON.parse(tasks) || [];
-        console.log(taskList)
-        
-
+      
         this.setState({
             taskList
         })
@@ -87,7 +89,6 @@ class TodoList2 extends React.Component {
               completed:
               !this.state.taskList[index].completed
           };
-          console.log(taskList);
            
          // create copy of taskList 
           const taskList = this.state.taskList.slice();
@@ -158,4 +159,4 @@ const styles = StyleSheet.create({
   }})
 
  
-export default TodoList2;
+export default TodoList;
