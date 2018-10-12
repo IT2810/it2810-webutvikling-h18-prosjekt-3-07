@@ -61,11 +61,14 @@ export default class PedometerSensor extends React.Component {
       });
       }
     );
-
-    const end = new Date();
+    //Set start and end time for step count.
     const start = new Date();
-    start.setDate(end.getDate() - 1);
-    //Set start and end date for step count. Is currently 24 hours. 
+    start.setHours(0,0,0,0);  
+    const end = new Date();
+    end.setHours(23,59,59,999);
+
+   
+    
     Pedometer.getStepCountAsync(start, end).then(
       result => {
 
@@ -127,7 +130,7 @@ export default class PedometerSensor extends React.Component {
           You have walked <Text style={styles.stepstext}> {this.state.totalStepCount}</Text>
         </Text >
         <Text style={styles.text2}>
-          steps the last 24 hours.
+          steps today.
         </Text>
           {this.getStepsText()}
       </View>
