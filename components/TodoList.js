@@ -37,7 +37,6 @@ class TodoList2 extends React.Component {
   checkRemainingTasks() {
     let result = 0;
     let object = this.state.taskList;
-    console.log(object);
     object.forEach(function(arrayItem) {
       if (arrayItem.completed === false) {
         result++;
