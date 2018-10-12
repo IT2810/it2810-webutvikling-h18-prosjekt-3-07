@@ -15,24 +15,34 @@ export default class PedometerProgressBar extends React.Component {
     super(props)
     this.state = {
       progress: props.steps,
+      progressWithOnComplete: 0,
     }
   }
   componentWillReceiveProps(newProp) {
       this.setState({progress: (newProp.steps/100)})
    }
+
+   checkGoalComplete = (progress) => {
+     if (progress >= 100) {
+       return 100
+     }else {
+      return progress
+     }
+   }
+   
    
 
   render() {
     const barWidth = Dimensions.get('screen').width - 30;
- 
     return (
        
       <View style={styles.container}>
         <View>
           <ProgressBarAnimated
             width={barWidth}
-            value={this.state.progress}
-            backgroundColor='#47d147'
+            value={this.checkGoalComplete(this.state.progress)}
+            backgroundColor='#4d94ff'
+            backgroundColorOnComplete='#47d147'
           />
         </View>
         <Text style={styles.text}>{this.state.progress}
