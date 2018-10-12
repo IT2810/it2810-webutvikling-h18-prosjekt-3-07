@@ -1,6 +1,5 @@
 import React from 'react';
-//import { Button, StyleSheet, Text, View } from 'react-native';
-import RootStack from './components/Navigation';
+import RootStack from './components/RootStack';
 
 
 
