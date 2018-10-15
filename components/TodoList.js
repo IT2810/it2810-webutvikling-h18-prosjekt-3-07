@@ -42,17 +42,15 @@ class TodoList extends React.Component {
     Keyboard.removeListener();
   }
 
-  checkRemainingTasks() {
+  countRemainingTasks = tasks => {
     let result = 0;
-    let object = this.state.taskList;
-    object.forEach(function(arrayItem) {
+    tasks.forEach(function(arrayItem) {
       if (arrayItem.completed === false) {
         result++;
       }
     });
-    AsyncStorage.setItem("remainingTasks", JSON.stringify(result));
     return result;
-  }
+  };
 
   async addTask() {
     const newTask = {
@@ -77,8 +75,7 @@ class TodoList extends React.Component {
     // parses back to JS array (or empty array)
     let taskList = (await JSON.parse(tasks)) || [];
     // retrieves remainingTasks from storage
-    let rTasks = await AsyncStorage.getItem("remainingTasks");
-    let remainingTasks = await JSON.parse(rTasks);
+    let remainingTasks = this.countRemainingTasks(taskList);
 
     this.setState({
       taskList,
@@ -124,6 +121,22 @@ class TodoList extends React.Component {
     this.updateList();
   }
 
+  // Renders the top text in todo list
+  generateRemainingTaskText() {
+    let remainingTasks = this.state.remainingTasks;
+    if (remainingTasks == 1) {
+      return (
+        "You have " + this.state.remainingTasks + " task left. Almost there!!"
+      );
+    } else if (remainingTasks > 1) {
+      return (
+        "You have " + this.state.remainingTasks + " tasks left. Keep going!"
+      );
+    } else {
+      return "You have completed all your task! Wohey!";
+    }
+  }
+
   // named it _renderItem to separate it from FlatLists built-in-method renderItem
   // renders our TodoItem and defines values for its props
   _renderItem = ({ item }) => (
@@ -133,7 +146,6 @@ class TodoList extends React.Component {
       text={item.text}
       onComplete={() => this.completeTask(item.id)}
       onDelete={() => this.deleteTask(item.id)}
-      checkRemainingTasks={() => this.checkRemainingTasks()}
     />
   );
 
@@ -142,7 +154,7 @@ class TodoList extends React.Component {
       <View
         style={[styles.container, { paddingBottom: this.state.viewPadding }]}
       >
-        <Text>{this.checkRemainingTasks()}</Text>
+        <Text>{this.generateRemainingTaskText()}</Text>
 
         <FlatList
           data={this.state.taskList}
