@@ -15,9 +15,7 @@ class WelcomeMessage extends React.Component {
   }
 
   // checks time of day and set customisedMessage state
-  checkTimeOfDay = () => {
-    let currentHour = this.state.currentHour;
-    console.log(currentHour);
+  checkTimeOfDay = currentHour => {
     if (currentHour < 5) {
       return "Maybe time to get some sleep? 😴 ";
     } else if (currentHour < 12) {
@@ -30,9 +28,12 @@ class WelcomeMessage extends React.Component {
   };
 
   render() {
+    //let currentHour = this.state.currentHour;
     return (
       <View>
-        <Text style={styles.text}>{this.checkTimeOfDay()}</Text>
+        <Text style={styles.text}>
+          {this.checkTimeOfDay(this.state.currentHour)}
+        </Text>
       </View>
     );
   }
