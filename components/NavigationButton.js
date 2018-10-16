@@ -7,7 +7,7 @@ const screenWidth = Dimensions.get('window').width;
 class NavigationButton extends React.Component {
     render() {
         return (
-            <TouchableOpacity 
+            <TouchableOpacity
             style={styles.button}
             onPress = {this.props.onPress} > 
             <Text style={styles.buttonText}>{this.props.title}</Text>
@@ -18,20 +18,20 @@ class NavigationButton extends React.Component {
 
 const styles = StyleSheet.create({
     button: {
-        width: 0.8*screenWidth, 
+        width: 0.7*screenWidth, 
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: '#FFBA5C',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,
-        borderColor: '#8492A6',
+        borderColor: '#FFBA5C',
         borderWidth: 2,
-        marginBottom: 10
+        marginBottom: 20,
         
     },
     buttonText: {
         fontSize: 19,
-        color: 'black'
+        color: '#FFF'
     },
 })
 

@@ -105,7 +105,7 @@ export default class PedometerSensor extends React.Component {
             Keep going! You have 
           </Text>
           <Text style={styles.stepstext}>
-            {recomendedSteps - this.state.totalStepCount} <Text style={styles.text2}> steps left.</Text>
+            {recomendedSteps - this.state.totalStepCount} <Text style={styles.text2}> steps left 🏃‍♀️</Text>
           </Text> 
         </View>
       );
@@ -116,7 +116,7 @@ export default class PedometerSensor extends React.Component {
             Congratulations!
           </Text>
           <Text style={styles.text2}>
-            You have reached the goal.
+            You have reached the goal 🎉
           </Text>
         </View>
       );
@@ -140,17 +140,17 @@ export default class PedometerSensor extends React.Component {
 
 const styles = StyleSheet.create({
   stepstext: {
-    color: '#8492A6',
+    color: 'black',
     fontWeight: 'bold',
     fontSize: 20,
   },
   text1: {
-    color: '#8492A6',
+    color: 'black',
     marginTop: 20, 
     fontSize: 20,
   },
   text2: {
-    color: '#8492A6',
+    color: 'black',
     fontSize: 20,
     fontWeight: 'normal',
   },

@@ -61,7 +61,9 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   text: {
-    color: '#8492A6',
+    paddingTop: 10,
+    alignSelf: 'center',
+    color: 'gray',
     fontSize: 20,
     fontWeight: 'normal',
   },

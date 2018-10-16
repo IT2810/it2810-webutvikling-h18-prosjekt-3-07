@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import TodoList from '../components/TodoList';
 
 class TasksScreen extends React.Component {

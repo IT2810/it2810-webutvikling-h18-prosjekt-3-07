@@ -18,7 +18,7 @@ class TodoList extends React.Component {
   state = {
     taskList: [],
     text: "",
-    remainingTasks: 0
+    remainingTasks: 0,
   };
 
   componentDidMount() {
@@ -34,38 +34,12 @@ class TodoList extends React.Component {
       isAndroid ? "keyboardDidHide" : "keyboardWillHide",
       () => this.setState({ viewPadding: viewPadding })
     );
-
+    // get tasks from storage (if any)
     this.updateList();
   }
 
   componentWillUnmount() {
     Keyboard.removeListener();
-  }
-
-  countRemainingTasks = tasks => {
-    let result = 0;
-    tasks.forEach(function(arrayItem) {
-      if (arrayItem.completed === false) {
-        result++;
-      }
-    });
-    return result;
-  };
-
-  async addTask() {
-    const newTask = {
-      id: new Date(),
-      text: this.state.text,
-      completed: false
-    };
-
-    // adds newTask to our task array
-    const taskList = [...this.state.taskList, newTask];
-
-    // store in asyncStorage
-    await AsyncStorage.setItem("taskList", JSON.stringify(taskList));
-
-    this.updateList();
   }
 
   // fetches from storage, parses and updates the state of taskList
@@ -79,7 +53,7 @@ class TodoList extends React.Component {
 
     this.setState({
       taskList,
-      remainingTasks
+      remainingTasks,
     });
 
     // set text to empty
@@ -90,11 +64,31 @@ class TodoList extends React.Component {
     this.setState({ text });
   };
 
+  /* METHODS FOR ADDING, DELETING AND CHECKING OFF A TASK */
+
+  async addTask() {
+    // create new task object
+    const newTask = {
+      id: new Date(),
+      text: this.state.text,
+      completed: false
+    };
+
+    // adds newTask to our task array
+    const taskList = [...this.state.taskList, newTask];
+
+    // store in asyncStorage
+    await AsyncStorage.setItem("taskList", JSON.stringify(taskList));
+
+    // call on method to update tasklist after a task has been added
+    this.updateList();
+  }
+
   async deleteTask(id) {
     // find index of element with timestamp used as a parameter
     const index = this.state.taskList.findIndex(item => item.id === id);
     // remove the object at given index from taskList
-    const remove = this.state.taskList.splice(index, 1);
+    this.state.taskList.splice(index, 1);
 
     await AsyncStorage.setItem("taskList", JSON.stringify(this.state.taskList));
 
@@ -117,23 +111,40 @@ class TodoList extends React.Component {
     taskList[index] = updatedTask;
 
     await AsyncStorage.setItem("taskList", JSON.stringify(taskList));
-
+    
     this.updateList();
   }
+
+  /* METHODS FOR KEEPING TRACK OF REMAINING TASKS */
+
+  countRemainingTasks = tasks => {
+    let result = 0;
+    tasks.forEach(function(arrayItem) {
+      if (arrayItem.completed === false) {
+        result++;
+      }
+    });
+    return result;
+  };
 
   // Renders the top text in todo list
   generateRemainingTaskText() {
     let remainingTasks = this.state.remainingTasks;
-    if (remainingTasks == 1) {
+    if (this.state.taskList.length == 0) {
       return (
-        "You have " + this.state.remainingTasks + " task left. Almost there!!"
+        "Maybe you should add some tasks? 🤔"
+      );
+    }
+    else if (remainingTasks == 1) {
+      return (
+        "You have " + this.state.remainingTasks + " task left. Almost there 😃"
       );
     } else if (remainingTasks > 1) {
       return (
-        "You have " + this.state.remainingTasks + " tasks left. Keep going!"
+        "You have " + this.state.remainingTasks + " tasks left. Keep going! 💪"
       );
     } else {
-      return "You have completed all your task! Wohey!";
+      return "You have completed all your task! Wohoo 👏";
     }
   }
 
@@ -154,7 +165,7 @@ class TodoList extends React.Component {
       <View
         style={[styles.container, { paddingBottom: this.state.viewPadding }]}
       >
-        <Text>{this.generateRemainingTaskText()}</Text>
+        <Text style={styles.text}>{this.generateRemainingTaskText()}</Text>
 
         <FlatList
           data={this.state.taskList}
@@ -191,6 +202,11 @@ const styles = StyleSheet.create({
     borderColor: "#e0e2e5",
     borderWidth: isAndroid ? 0 : 1,
     width: "100%"
+  },
+  text: {
+    padding: 8,
+    alignSelf: "center",
+    fontSize: 14,
   }
 });
 
