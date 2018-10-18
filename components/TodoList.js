@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  AsyncStorage,
   FlatList,
   View,
   TextInput,
@@ -10,6 +9,7 @@ import {
   Text
 } from "react-native";
 import TodoItem from "./TodoItem";
+import {countRemainingTasks, generateRemainingTaskText, updateTaskList, addTaskUtil, completeTaskUtil, deleteTaskUtil} from '../Utils/Utils';
 
 const isAndroid = Platform.OS == "android";
 const viewPadding = 0;
@@ -44,12 +44,9 @@ class TodoList extends React.Component {
 
   // fetches from storage, parses and updates the state of taskList
   async updateList() {
-    // retrieves taskList from storage
-    let tasks = await AsyncStorage.getItem("taskList");
-    // parses back to JS array (or empty array)
-    let taskList = (await JSON.parse(tasks)) || [];
+    let taskList = await updateTaskList();
     // retrieves remainingTasks from storage
-    let remainingTasks = this.countRemainingTasks(taskList);
+    let remainingTasks = await countRemainingTasks(taskList);
 
     this.setState({
       taskList,
@@ -64,88 +61,20 @@ class TodoList extends React.Component {
     this.setState({ text });
   };
 
-  /* METHODS FOR ADDING, DELETING AND CHECKING OFF A TASK */
-
-  async addTask() {
-    // create new task object
-    const newTask = {
-      id: new Date(),
-      text: this.state.text,
-      completed: false
-    };
-
-    // adds newTask to our task array
-    const taskList = [...this.state.taskList, newTask];
-
-    // store in asyncStorage
-    await AsyncStorage.setItem("taskList", JSON.stringify(taskList));
-
+  async addTask(text, taskListState) {
+    await addTaskUtil(text,taskListState);
     // call on method to update tasklist after a task has been added
     this.updateList();
   }
 
-  async deleteTask(id) {
-    // find index of element with timestamp used as a parameter
-    const index = this.state.taskList.findIndex(item => item.id === id);
-    // remove the object at given index from taskList
-    this.state.taskList.splice(index, 1);
-
-    await AsyncStorage.setItem("taskList", JSON.stringify(this.state.taskList));
-
+  async deleteTask(id, taskListState) {
+    await deleteTaskUtil(id, taskListState);
     this.updateList();
   }
 
-  async completeTask(id) {
-    // find index of element with timestamp used as a parameter
-    const index = this.state.taskList.findIndex(item => item.id === id);
-
-    // toggle true/false for task completed
-    const updatedTask = {
-      ...this.state.taskList[index],
-      completed: !this.state.taskList[index].completed
-    };
-
-    // create copy of taskList
-    const taskList = this.state.taskList.slice();
-    //insert updatedTask at index id
-    taskList[index] = updatedTask;
-
-    await AsyncStorage.setItem("taskList", JSON.stringify(taskList));
-    
+  async completeTask(id, taskListState) {
+    await completeTaskUtil(id, taskListState);
     this.updateList();
-  }
-
-  /* METHODS FOR KEEPING TRACK OF REMAINING TASKS */
-
-  countRemainingTasks = tasks => {
-    let result = 0;
-    tasks.forEach(function(arrayItem) {
-      if (arrayItem.completed === false) {
-        result++;
-      }
-    });
-    return result;
-  };
-
-  // Renders the top text in todo list
-  generateRemainingTaskText() {
-    let remainingTasks = this.state.remainingTasks;
-    if (this.state.taskList.length == 0) {
-      return (
-        "Maybe you should add some tasks? 🤔"
-      );
-    }
-    else if (remainingTasks == 1) {
-      return (
-        "You have " + this.state.remainingTasks + " task left. Almost there 😃"
-      );
-    } else if (remainingTasks > 1) {
-      return (
-        "You have " + this.state.remainingTasks + " tasks left. Keep going! 💪"
-      );
-    } else {
-      return "You have completed all your task! Wohoo 👏";
-    }
   }
 
   // named it _renderItem to separate it from FlatLists built-in-method renderItem
@@ -155,17 +84,20 @@ class TodoList extends React.Component {
       id={item.id}
       completed={item.completed}
       text={item.text}
-      onComplete={() => this.completeTask(item.id)}
-      onDelete={() => this.deleteTask(item.id)}
+      onComplete={() => this.completeTask(item.id, this.state.taskList)}
+      onDelete={() => this.deleteTask(item.id, this.state.taskList)}
     />
   );
 
   render() {
+    let remainingTasks = this.state.remainingTasks;
+    let taskList = this.state.taskList;
+    let text = this.state.text;
     return (
       <View
         style={[styles.container, { paddingBottom: this.state.viewPadding }]}
       >
-        <Text style={styles.text}>{this.generateRemainingTaskText()}</Text>
+        <Text style={styles.text}>{generateRemainingTaskText(remainingTasks, taskList)}</Text>
 
         <FlatList
           data={this.state.taskList}
@@ -176,7 +108,7 @@ class TodoList extends React.Component {
         <TextInput
           style={styles.textInput}
           onChangeText={text => this.changeTextHandler(text)}
-          onSubmitEditing={() => this.addTask()}
+          onSubmitEditing={() => this.addTask(text, taskList)}
           value={this.state.text}
           placeholder="Add a task!"
           returnKeyType="done"
