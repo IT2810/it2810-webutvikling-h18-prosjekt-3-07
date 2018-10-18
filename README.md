@@ -45,6 +45,8 @@ The app has the following functionality:
 ### Structuring
 For our code structure, we decided to separate our code into a components folder (the logic) and a screen folder (the views). The screen folder includes the components that represent the three different screens/views: ```HomeScreen.js``` which is the landing page of the app, and where one can navigate to all other screens. ```PedometerScreen.js``` shows the Pedometer, and ```TasksScreen.js``` shows the todo-list, and where one can add and remove tasks. ```Index.js``` is only used to export the three screens in such a way that makes them simple to import in ```RootStack.js```.
 
+We later decided to move some of the functions that were originally in TodoList into another folder called ```utils``` to make them easier to test with jest. 
+
 ### Component structure
 
  - App
@@ -198,3 +200,4 @@ We used git's own "trello" board for Projects to keep track of which issues were
 To test the project we used Jests Snapshot-testing functionality. Once our basic screens and components were done, we created Snapshots of all, and used these to check for changes to the components during coding. All our tests can be found in the ```__tests__``` folder, and the Snapshots in the subfolder ```__snapshots__```.
 
 #### Unit tests
+We created simple unit tests of a number of functions that took some simple input like a number or a string, and generated a simple output, like a number or a string. We tried to do unit tests with more of our code, but most of our code used other libraries like AsyncStorage, which we found difficult to test.
