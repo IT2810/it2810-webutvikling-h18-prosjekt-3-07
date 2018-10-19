@@ -26,7 +26,7 @@ exports[`renders correctly 1`] = `
       <View
         style={
           Object {
-            "backgroundColor": "rgba(20, 140, 240, 1)",
+            "backgroundColor": "rgba(77, 148, 255, 1)",
             "borderRadius": 6,
             "height": 13,
             "width": 0,
@@ -41,13 +41,14 @@ exports[`renders correctly 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
-        "color": "#8492A6",
+        "alignSelf": "center",
+        "color": "gray",
         "fontSize": 20,
         "fontWeight": "normal",
+        "paddingTop": 10,
       }
     }
   >
-    NaN
     <Text
       accessible={true}
       allowFontScaling={true}

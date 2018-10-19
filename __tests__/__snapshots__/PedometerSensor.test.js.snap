@@ -8,7 +8,7 @@ exports[`renders correctly 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
-        "color": "#8492A6",
+        "color": "black",
         "fontSize": 20,
         "marginTop": 20,
       }
@@ -21,7 +21,7 @@ exports[`renders correctly 1`] = `
       ellipsizeMode="tail"
       style={
         Object {
-          "color": "#8492A6",
+          "color": "black",
           "fontSize": 20,
           "fontWeight": "bold",
         }
@@ -37,56 +37,58 @@ exports[`renders correctly 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
-        "color": "#8492A6",
+        "color": "black",
         "fontSize": 20,
         "fontWeight": "normal",
       }
     }
   >
-    steps the last 24 hours.
+    steps today.
   </Text>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={
-      Object {
-        "color": "#8492A6",
-        "fontSize": 20,
-        "marginTop": 20,
-      }
-    }
-  >
-    Keep going! You have
-  </Text>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={
-      Object {
-        "color": "#8492A6",
-        "fontSize": 20,
-        "fontWeight": "bold",
-      }
-    }
-  >
-    10000
-     
+  <View>
     <Text
       accessible={true}
       allowFontScaling={true}
       ellipsizeMode="tail"
       style={
         Object {
-          "color": "#8492A6",
+          "color": "black",
           "fontSize": 20,
-          "fontWeight": "normal",
+          "marginTop": 20,
         }
       }
     >
-       steps left.
+      Keep going! You have
     </Text>
-  </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "black",
+          "fontSize": 20,
+          "fontWeight": "bold",
+        }
+      }
+    >
+      10000
+       
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "black",
+            "fontSize": 20,
+            "fontWeight": "normal",
+          }
+        }
+      >
+         steps left 🏃‍♀️
+      </Text>
+    </Text>
+  </View>
 </View>
 `;

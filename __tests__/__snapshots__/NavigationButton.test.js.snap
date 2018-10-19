@@ -13,15 +13,15 @@ exports[`renders correctly (navigationButton 1`] = `
   style={
     Object {
       "alignItems": "center",
-      "backgroundColor": "white",
-      "borderColor": "#8492A6",
+      "backgroundColor": "#FFBA5C",
+      "borderColor": "#FFBA5C",
       "borderRadius": 10,
       "borderWidth": 2,
       "height": 40,
       "justifyContent": "center",
-      "marginBottom": 10,
+      "marginBottom": 20,
       "opacity": 1,
-      "width": 600,
+      "width": 525,
     }
   }
 >
@@ -31,7 +31,7 @@ exports[`renders correctly (navigationButton 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
-        "color": "black",
+        "color": "#FFF",
         "fontSize": 19,
       }
     }

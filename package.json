@@ -21,7 +21,10 @@
     "react-test-renderer": "^16.5.2"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$'"
+    ]
   },
   "devDependencies": {
     "jest": "^23.6.0",

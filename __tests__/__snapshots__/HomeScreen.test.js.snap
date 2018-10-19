@@ -7,17 +7,37 @@ exports[`matches snapshot 1`] = `
       "alignItems": "center",
       "backgroundColor": "#fff",
       "flex": 1,
-      "justifyContent": "center",
+      "justifyContent": "space-between",
     }
   }
 >
-  <NavigationButton
-    onPress={[Function]}
-    title="TODO'S"
-  />
-  <NavigationButton
-    onPress={[Function]}
-    title="Pedometer"
-  />
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#fff",
+        "justifyContent": "center",
+        "marginTop": 40,
+      }
+    }
+  >
+    <WelcomeMessage />
+    <Component
+      style={
+        Object {
+          "marginTop": 30,
+        }
+      }
+    >
+      <NavigationButton
+        onPress={[Function]}
+        title="TODOs"
+      />
+      <NavigationButton
+        onPress={[Function]}
+        title="Pedometer"
+      />
+    </Component>
+  </Component>
 </Component>
 `;
