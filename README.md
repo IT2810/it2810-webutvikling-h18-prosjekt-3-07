@@ -155,7 +155,7 @@ checked = {this.state.checked}
 />
 ```
 
-For more examples and details check out the full documentation. 
+For more examples and details check out the [full documentation](https://react-native-training.github.io/react-native-elements/docs/0.19.0/getting_started.html). 
 
 #### NativeBase.io
 NativeBase is a an open source UI component library for React Native which is used to build native mobile apps for iOS and Android platforms. We used their <Icon> component in ```TodoItem```, however they have a lot of different UI components which you can check out [here](https://docs.nativebase.io/Components.html#Components). 
@@ -212,3 +212,27 @@ To test the project we used Jests Snapshot-testing functionality. Once our basic
 
 #### Unit tests
 We created simple unit tests of a number of functions that took some simple input like a number or a string, and generated a simple output, like a number or a string. We tried to do unit tests with more of our code, but most of our code used other libraries like AsyncStorage, which we found difficult to test.
+
+### Resources
+A overview of the resources we used (which haven't been linked to already in the documentation)   
+
+* https://codeburst.io/todo-app-with-react-native-f889e97e398e   
+
+Used this initially to create TodoList component, however we decided we didn’t like the code structure so decided to use the resource listed below as inspiration. However, we did end up re-using a modified version of some of the styling (for TodoList and the list elements) in our application. The following code snippet, which by changing the padding according to whether keyboard is hidden or not moves the textInput field, is also from this tutorial:
+
+```Keyboard.addListener(
+      isAndroid ? "keyboardDidShow" : "keyboardWillShow",
+      e => this.setState({ viewPadding: e.endCoordinates.height + viewPadding })
+    );
+
+   
+    Keyboard.addListener(
+      isAndroid ? "keyboardDidHide" : "keyboardWillHide",
+      () => this.setState({ viewPadding: viewPadding })
+    );
+```
+
+* [React Native by Example](https://www.packtpub.com/application-development/react-native-example)   
+Had a useful tutorial for creating a simple TodoList app which we used as a starting point. We did however had to do a couple of modifications to get the functionality we wanted (like for example being able to delete a task). 
+
+* [React Native and](https://facebook.github.io/react-native/docs/getting-started) and [Jest](https://jestjs.io/docs/en/getting-started) docs 
