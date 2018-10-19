@@ -126,6 +126,17 @@ to ```scripts``` inside package.json, and that the Jest dependency inside ```pac
 
 ```jest-expo```
 
+#### React-navigation
+For navigation between screens we used the react-navigation library. To install this, simply run: 
+
+``` npm install --save react-navigation ```
+
+and copy/paste this line into your project to import it: 
+
+``` import { createStackNavigator } from 'react-navigation'; ```
+
+For more information about how to use this library, see the [full documentation](https://reactnavigation.org/docs/en/hello-react-navigation.html).
+
 #### React Native Elements
 React Native Elements is cross platform React Native UI toolkit. In our project we used the library’s Checkbox component. Installing React Native Elements depends on your type of react native project. We’ll assume you’re using Expo or create-react-native-app (check out [this page](https://react-native-training.github.io/react-native-elements/docs/0.19.0/getting_started.html) if not!)  and in that case the project already includes react-native-vector-elements, so all you need to do is install react-native-elements like so:
 
@@ -173,7 +184,7 @@ We included the functions in [this example](https://docs.expo.io/versions/latest
 
 1.  **For Android only**: When you reload the app, you’ll get the error message: “Already managing a GoogleApiClient with id 0”. To solve this, you have to close the Expo project on your phone and open it again. This problem typically occurs when you try to change the code, and save it, before restarting Expo. 
 
-2.  Sometimes when you run ```expo start``` the first time, and navigate to the ``Pedometer screen``, the number of steps is 0, even though you have walked more than this. The Pedometer is sometimes a bit slow, but if you go back to the main screen, and then to the ```pedometer screen``` again, you will get the correct updates. This problem mostly seems to occur on iOS. 
+2.  Sometimes when you run ```expo start``` the first time, and navigate to the ``Pedometer screen``, the number of steps is 0, even though you have walked more than this. The Pedometer is sometimes a bit slow, but if you go back to the main screen, and then to the ```pedometer screen``` again, you will get the correct updates. 
 
 #### ProgressBarAnimated
 The react-native-progress-bar-animated package offers different customizable and animated progress bars for react native. If you want to use this bar in your project, you can include the ```<ProgressBarAnimated>``` tag in your code, and add your choise of available props from [this list](https://www.npmjs.com/package/react-native-progress-bar-animated). We used the example for “Bar with backgroundColorOnComplete”, because we wanted the background color to change when we had completed the number of steps taken in one day. We collected props from the ```PedometerSensor``` component and used this to set the progress.
