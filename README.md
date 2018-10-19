@@ -49,20 +49,7 @@ We later decided to move some of the functions that were originally in TodoList 
 
 ### Component structure
 
-![component hierarchy](it2810-webutvikling-h18-prosjekt-3-07/assets/CompomentHierarchy.png)
-      
-
- - App
-   - RootStack
-      - HomeScreen
-         - NavigationButton
-         - WelcomeMessage
-      - PedometerScreen
-         - PedometerProgressBar
-         - PedometerSensor
-      - TasksScreen
-         - TodoList
-           - TodoItem
+![component hierarchy](https://github.com/IT2810/it2810-webutvikling-h18-prosjekt-3-07/blob/master/assets/CompomentHierarchy.png)
 
 **App**
 Root component of the application. 
@@ -215,6 +202,37 @@ To test the project we used Jests Snapshot-testing functionality. Once our basic
 
 #### Unit tests
 We created simple unit tests of a number of functions that took some simple input like a number or a string, and generated a simple output, like a number or a string. We tried to do unit tests with more of our code, but most of our code used other libraries like AsyncStorage, which we found difficult to test.
+
+#### User testing
+To test the functionality on both Android and iOS the following criteria were met: 
+
+1. On the HomeScreen, check the time and check that you receive the right welcome message: 
+00:00-04:59 -  "Maybe time to get some sleep?"
+05:00-11:59 - "Good morning..." 
+12:00-18:59 - "Good afternoon..."
+19:00-23:59 - "Good evening..."
+
+2. Go to "TODOs". Check that the feedback you receive on the top of the screen is correct. The first time you use the app, you should get a message saying "Maybe you should add some taks...". Otherwise, delete all current tasks. 
+
+3. Try adding three new tasks and watch the number of unfinished tasks increase in the message. 
+
+4. Check one taks (finished) and delete another task. Now it is supposed to say you have 1 taks left.
+
+5. Try adding one more task. Now your supposed to get a message saying you have 2 tasks left. Go back to the home screen clicking the arrow on the navigation bar. 
+
+6. Navigate to "TODOs" one more time. Check that you still have the same finished and unfinished tasks you had before. 
+
+7. Close the app, and repeat step 6. 
+
+8. Go back to the home screen, and click on "Pedometer". Remember or write down the number of steps you have walked (see the message on the first line on top of the screen). Because of known errors (see Expo Pedometer API) you might have to close the app, and revisit the Pedometer screen.
+
+9. If you have walked less than 10 000 steps, check that the number of steps you have left is:
+10 000 - steps walked today. If you have walked 10 000 steps or more, you should get a congratulation message.
+
+10. Check that the pedometer progress bar shows the correct percentage of 10 000 steps. 
+
+11. Try to walk, and see the number of steps go up. At the same time, the number of steps left should go down the same amount. You would have to keep the phone close to you body for it to update correctly. 
+
 
 ### Resources
 A overview of the resources we used (which haven't been linked to already in the documentation)   
