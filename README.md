@@ -52,37 +52,49 @@ We later decided to move some of the functions that were originally in TodoList 
 ![component hierarchy](https://github.com/IT2810/it2810-webutvikling-h18-prosjekt-3-07/blob/master/assets/CompomentHierarchy.png)
 
 **App**
+
 Root component of the application. 
 
 **RootStack**
+
 Imports the ```createStackNavigator``` function that provides a way for your app to transition between screens and manage navigation history. This component is rendered in the root component (App).
 
 **HomeScreen**
+
 Sends props to ```NavigationButton``` component which then navigates to the different screens, ```PedometerScreen``` or ```TasksScreen```. When we press one of the buttons on ```HomeScreen```, ```navigate()``` is called, and pushes a new route to the stack navigator, if it’s not already in the stack. If it’s in the stack, it jumps to that screen.
 
 **NavigationButton**
+
 A simple component that uses ```TouchableOpacity``` which behaves as a button. This is rendered in the ```HomeScreen``` component. 
 
 **WelcomeMessage**
+
 Renders a textual output based on the time of the day. The text is shown on the ```HomeScreen```.
 
 **PedometerScreen**
+
 Displays the two components ```PedometerProgressBar``` and ```PedometerSensor```. Receives the state ```currentStepCount``` as prop from ```PedometerSensor``` which in turn sends it down to ```PedometerProgressBar```. 
 
 **PedometerSensor**
+
 Contains the pedometer functionality for displaying steps. The ```Pedometer.watchStepCount()``` updates the ```currentStepCount``` state, which always starts at 0 when you start the app, and is updated as you start to walk. The ```Pedometer.getStepCountAsync()``` updates the ```pastStepCount``` state, which is the number of steps walked today, before you start the app. The function ```getTotalStepCount``` combine these two states into one ```totalStepCount```, which is the updated total number of steps taken. This state is sent as a prop to the ```PedometerProgressBar``` component through ```PedometerScreen```.
 
 **PedometerProgressBar**
+
 Contains the progress bar that uses the received prop from ```PedometerSensor```. This is set as the progress state and divided by 100 to display the percentage progress.
 
 **TaskScreen**
+
 Renders the ```TodoList``` component.
 
 **TodoItem**
+
 Each todo consist of a checkbox, text, and a delete icon. Methods ```onComplete()``` and ```onDelete()``` are triggered from this component and sent up to parent ```TodoList```. Also has id, completed, and text props which are set in ```TodoList```.
 
 **TodoList**
+
 Renders each ```TodoItem``` in a list. The logic for deleting, adding and marking todos as completed is found here. Keeps track of todos in the ```taskList``` state, which is an array of task objects. Sets the props for ```TodoItem```. 
+**Note!** Expo shows a warning in TodoList where it reacts to a state being set on an unmounted component. We are aware of this bug and were planning to fix it, but had too little time. It does not affect the overall performance of the app as it is now.
 
 ## Technology
 
