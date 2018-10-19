@@ -49,6 +49,9 @@ We later decided to move some of the functions that were originally in TodoList 
 
 ### Component structure
 
+![component hierarchy](it2810-webutvikling-h18-prosjekt-3-07/assets/CompomentHierarchy.png)
+      
+
  - App
    - RootStack
       - HomeScreen
